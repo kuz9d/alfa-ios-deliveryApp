@@ -70,8 +70,7 @@ class LoginViewController: UIViewController {
             loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
             errorLabel.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 10),
-            errorLabel.leadingAnchor.constraint(equalTo: usernameField.leadingAnchor),
-            errorLabel.trailingAnchor.constraint(equalTo: usernameField.trailingAnchor)
+            errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
 
