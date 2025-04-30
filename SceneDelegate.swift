@@ -15,6 +15,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = UINavigationController(rootViewController: loginVC)
         self.window = window
         window.makeKeyAndVisible()
+        
+        let viewModel = ProductListViewModel()
+                
+        viewModel.didChange = {
+            print("Items updated:")
+                for item in viewModel.items {
+                    print("- \(item.name) | \(item.priceText)")
+                }
+            }
+
+        viewModel.didFail = { error in
+            print("Error: \(error)")
+        }
+
+            viewModel.fetchNextPage()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
