@@ -94,13 +94,7 @@ class ProductListViewModel: ProductListViewModelProtocol {
     private func appendProducts(_ products: [Product]) {
         currentPage += 1
         productsByPage[currentPage] = products
-        let newItems = products.map { prod in
-            ProductDisplayItem(
-                name: prod.name,
-                priceText: String(format: "$%.2f", prod.price),
-                imageURL: URL(string: prod.imageUrl)
-            )
-        }
+        let newItems = products.map { ProductDisplayItem(product: $0) }
         items.append(contentsOf: newItems)
     }
 }
