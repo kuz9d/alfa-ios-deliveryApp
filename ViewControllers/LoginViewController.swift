@@ -1,13 +1,15 @@
 import UIKit
 
 class LoginViewController: UIViewController {
-
+    
     private let viewModel: LoginViewModelProtocol
+    private let router: RouterProtocol
 
     private lazy var loginView = LoginView()
 
-    init(viewModel: LoginViewModelProtocol) {
+    init(viewModel: LoginViewModelProtocol, router: RouterProtocol) {
         self.viewModel = viewModel
+        self.router = router
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -39,7 +41,7 @@ class LoginViewController: UIViewController {
 
         if viewModel.login(username: username, password: password) {
             loginView.hideError()
-            print("Logged in successfully!")
+            router.showProductList()
         } else {
             loginView.showError("Invalid credentials. Try again.")
         }
