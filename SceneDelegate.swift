@@ -6,30 +6,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-
+        
         let window = UIWindow(windowScene: windowScene)
+        let navigationController = UINavigationController()
+        let router = AppRouter(navigation: navigationController)
         
         let loginViewModel = LoginViewModel()
-        let loginVC = LoginViewController(viewModel: loginViewModel)
+        let loginVC = LoginViewController(viewModel: loginViewModel, router: router)
+        navigationController.viewControllers = [loginVC]
         
-        window.rootViewController = UINavigationController(rootViewController: loginVC)
+        window.rootViewController = navigationController
         self.window = window
         window.makeKeyAndVisible()
-        
-        let viewModel = ProductListViewModel()
-                
-        viewModel.didChange = {
-            print("Items updated:")
-                for item in viewModel.items {
-                    print("- \(item.name) | \(item.priceText)")
-                }
-            }
-
-        viewModel.didFail = { error in
-            print("Error: \(error)")
-        }
-
-            viewModel.fetchNextPage()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

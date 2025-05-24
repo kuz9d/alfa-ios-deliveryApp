@@ -1,14 +1,18 @@
-class ProductDetailViewModel: ProductDetailViewModelProtocol {
-    let product: Product
-    private let storage: StorageFacadeProtocol
+import Foundation
 
-    init(product: Product, storage: StorageFacadeProtocol) {
+class ProductDetailViewModel: ProductDetailViewModelProtocol {
+    private let product: Product
+
+    init(product: Product) {
         self.product = product
-        self.storage = storage
     }
 
-    func addToCart(quantity: Int) {
-        let item = CartItem(product: product, quantity: quantity)
-        storage.addToCart(item)
+    var title: String { product.name }
+    var description: String { product.description }
+    var priceText: String {
+        String(format: "$%.2f", product.price)
+    }
+    var imageURL: URL? {
+        URL(string: product.imageUrl)
     }
 }

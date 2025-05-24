@@ -1,4 +1,8 @@
+import Foundation
+
 protocol ProductDetailViewModelProtocol {
-    var product: Product { get }
-    func addToCart(quantity: Int)
+    var title: String { get }
+    var description: String { get }
+    var priceText: String { get }
+    var imageURL: URL? { get }
 }
