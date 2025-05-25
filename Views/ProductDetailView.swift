@@ -5,6 +5,7 @@ final class ProductDetailView: UIView {
     let titleLabel = DSLabel()
     let descriptionLabel = DSLabel()
     let priceLabel = DSLabel()
+    let orderButton = DSButton()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,6 +27,7 @@ final class ProductDetailView: UIView {
         stack.addArrangedSubview(titleLabel)
         stack.addArrangedSubview(priceLabel)
         stack.addArrangedSubview(descriptionLabel)
+        stack.addArrangedSubview(orderButton)
 
         addSubview(stack)
         stack.translatesAutoresizingMaskIntoConstraints = false

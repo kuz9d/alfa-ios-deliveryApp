@@ -2,11 +2,13 @@ import UIKit
 
 final class ProductDetailViewController: UIViewController {
     private let viewModel: ProductDetailViewModelProtocol
+    private let router: RouterProtocol
 
     private lazy var detailView = ProductDetailView()
 
-    init(viewModel: ProductDetailViewModelProtocol) {
+    init(viewModel: ProductDetailViewModelProtocol, router: RouterProtocol) {
         self.viewModel = viewModel
+        self.router = router
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -26,6 +28,17 @@ final class ProductDetailViewController: UIViewController {
         if let url = viewModel.imageURL {
             loadImage(from: url)
         }
+        detailView.orderButton.configure(
+                with: DSButtonViewModel(
+                    title: "Заказать",
+                    style: .primary,
+                    action: { [weak self] in
+                        guard let self = self else { return }
+                        let url = URL(string: "https://alfa-itmo.ru/server/v1/storage/kuznetsovScreenConfig")!
+                        self.router.showBDUIScreen(endpoint: url)
+                    }
+                )
+            )
     }
     
     private func loadImage(from url: URL) {
