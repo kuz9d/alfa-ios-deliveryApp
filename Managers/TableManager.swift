@@ -12,8 +12,8 @@ class TableManager: NSObject, TableManagerProtocol {
         super.init()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(ProductTableViewCell.self,
-                           forCellReuseIdentifier: ProductTableViewCell.reuseId)
+        tableView.register(ProductViewCell.self,
+                           forCellReuseIdentifier: ProductViewCell.reuseId)
     }
 
     func setItems(_ items: [ProductDisplayItem]) {
@@ -34,9 +34,9 @@ extension TableManager: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: ProductTableViewCell.reuseId,
+                withIdentifier: ProductViewCell.reuseId,
                 for: indexPath
-        ) as? ProductTableViewCell else {
+        ) as? ProductViewCell else {
             return UITableViewCell()
         }
         cell.configure(with: items[indexPath.row])

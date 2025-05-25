@@ -2,72 +2,53 @@ import UIKit
 
 class LoginView: UIView {
 
-    let usernameField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Username"
-        textField.borderStyle = .roundedRect
-        textField.autocapitalizationType = .none
-        return textField
-    }()
-
-    let passwordField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Password"
-        textField.borderStyle = .roundedRect
-        textField.isSecureTextEntry = true
-        return textField
-    }()
-
-    let loginButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Login", for: .normal)
-        return button
-    }()
-
-    private let errorLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .red
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.numberOfLines = 0
-        label.isHidden = true
-        return label
-    }()
+    let titleLabel = DSLabel()
+    let usernameField = DSTextField()
+    let passwordField = DSTextField()
+    let loginButton = DSButton()
+    private let errorLabel = DSLabel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
+        backgroundColor = DSToken.Color.background
         setupUI()
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        setupUI()
     }
 
     private func setupUI() {
-        [usernameField, passwordField, loginButton, errorLabel].forEach {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            addSubview($0)
-        }
+        titleLabel.configure(with: DSLabelViewModel(text: "Welcome", style: .title1))
+        titleLabel.textAlignment = .center
+        usernameField.configure(with: DSTextFieldViewModel(placeholder: "Username", style: .filled, textDidChange: nil))
+        passwordField.configure(with: DSTextFieldViewModel(placeholder: "Password", style: .filled, textDidChange: nil))
+        loginButton.configure(with: DSButtonViewModel(title: "Login", style: .primary, action: nil))
+        errorLabel.configure(with: DSLabelViewModel(text: "", style: .caption))
+        errorLabel.textAlignment = .center
+        errorLabel.isHidden = true
 
+        let stack = DSStackView()
+        stack.configure(with: DSStackViewViewModel(
+            axis: .vertical,
+            spacing: DSToken.Spacing.medium,
+            distribution: .fill,
+            alignment: .fill
+        ))
+
+        [titleLabel, usernameField, passwordField, loginButton, errorLabel].forEach { stack.addArrangedSubview($0) }
+        addSubview(stack)
+        stack.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            usernameField.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 100),
-            usernameField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            usernameField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-
-            passwordField.topAnchor.constraint(equalTo: usernameField.bottomAnchor, constant: 20),
-            passwordField.leadingAnchor.constraint(equalTo: usernameField.leadingAnchor),
-            passwordField.trailingAnchor.constraint(equalTo: usernameField.trailingAnchor),
-
-            loginButton.topAnchor.constraint(equalTo: passwordField.bottomAnchor, constant: 30),
-            loginButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-
-            errorLabel.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 10),
-            errorLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
+            stack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: DSToken.Spacing.large),
+            stack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: DSToken.Spacing.medium),
+            stack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -DSToken.Spacing.medium)
         ])
     }
 
     func showError(_ message: String) {
-        errorLabel.text = message
+        errorLabel.configure(with: DSLabelViewModel(text: message, style: .caption))
         errorLabel.isHidden = false
     }
 
