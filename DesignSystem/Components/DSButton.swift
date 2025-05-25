@@ -7,7 +7,7 @@ public struct DSButtonViewModel {
 }
 
 public final class DSButton: UIButton {
-    public enum Style { case primary, secondary, border }
+    public enum Style: String, Codable { case primary, secondary, border }
     private var tapAction: (() -> Void)?
 
     public func configure(with viewModel: DSButtonViewModel) {
