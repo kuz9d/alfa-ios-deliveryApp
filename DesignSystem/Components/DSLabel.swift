@@ -6,7 +6,7 @@ public struct DSLabelViewModel {
 }
 
 public final class DSLabel: UILabel {
-    public enum Style {
+    public enum Style: String, Codable {
         case title1, title2, body, caption
     }
 

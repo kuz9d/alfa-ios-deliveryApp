@@ -20,7 +20,7 @@ public struct DSTextFieldViewModel {
 }
 
 public final class DSTextField: UIView, UITextFieldDelegate {
-    public enum Style { case filled, underlined, border }
+    public enum Style: String { case filled, underlined, border }
     private let textField = UITextField()
     public var text: String? {
             get { textField.text }
