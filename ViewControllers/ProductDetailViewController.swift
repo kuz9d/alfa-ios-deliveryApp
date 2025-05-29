@@ -1,7 +1,6 @@
 import UIKit
 
 final class ProductDetailViewController: UIViewController {
-    
     private let viewModel: ProductDetailViewModelProtocol
 
     private lazy var detailView = ProductDetailView()
@@ -12,28 +11,23 @@ final class ProductDetailViewController: UIViewController {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError()
     }
-
+    
     override func loadView() {
-        self.view = detailView
+        view = detailView
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configure()
-    }
-
-    private func configure() {
-        detailView.titleLabel.text = viewModel.title
-        detailView.descriptionLabel.text = viewModel.description
-        detailView.priceLabel.text = viewModel.priceText
-
+        detailView.titleLabel.configure(with: DSLabelViewModel(text: viewModel.title, style: .title2))
+        detailView.descriptionLabel.configure(with: DSLabelViewModel(text: viewModel.description, style: .body))
+        detailView.priceLabel.configure(with: DSLabelViewModel(text: viewModel.priceText, style: .caption))
         if let url = viewModel.imageURL {
             loadImage(from: url)
         }
     }
-
+    
     private func loadImage(from url: URL) {
         URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
             guard let self = self,
